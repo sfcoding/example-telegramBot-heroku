@@ -1,0 +1,12 @@
+app:
+  build: .
+  links:
+    - mongo
+  ports:
+    - "8080:80"
+  volumes:
+    - .:/home/app/personal-app
+
+mongo:
+  image: mongo:3
+  command: mongod --smallfiles --quiet --logpath=/dev/null
