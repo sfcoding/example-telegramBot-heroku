@@ -79,6 +79,7 @@ app.get('/',function(req,res,next){
 
 app.post('/update', function(req, res, next) {
   var message = req.body.result.message;
+  console.log('update!');
   if (message.text=='/hello'){
     //Lets configure and request
     request({
