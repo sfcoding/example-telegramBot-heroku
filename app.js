@@ -28,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 var env = process.env.NODE_ENV || 'development';
 
 var TOKEN = 'bot118505018:AAEz45wcGngywY3JaDpbNmX2TWhuPY3w1eU';
+var WEBHOOK_URL = 'https://still-beach-5489.herokuapp.com/update';
 var request = require('request');
 
 // development only
@@ -41,7 +42,7 @@ if ('production' == app.get('env')) {
   request({
       url: 'https://api.telegram.org/'+TOKEN+'/setWebhook',
       method: 'POST',
-      form: {url: 'https://scacciabot.sfcoding.com/update'},
+      form: {url: WEBHOOK_URL},
   }, function(error, response, body){
       if(error) {
           console.log(error);
