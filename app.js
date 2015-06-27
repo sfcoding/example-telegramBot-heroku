@@ -71,15 +71,14 @@ mongoose.connect('mongodb://'+app.get('mongodb_uri')+'/personal', function(err) 
 /**
  * Routes
  */
-
-// JSON API
+ 
 app.get('/',function(req,res,next){
   res.send('Working!');
 });
 
 app.post('/update', function(req, res, next) {
-  var message = req.body.result.message;
-  console.log('update!');
+  console.log('update! '+req.body);
+  var message = req.body.message;
   if (message.text=='/hello'){
     //Lets configure and request
     request({
