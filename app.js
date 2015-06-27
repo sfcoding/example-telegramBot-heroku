@@ -71,7 +71,7 @@ mongoose.connect('mongodb://'+app.get('mongodb_uri')+'/personal', function(err) 
 /**
  * Routes
  */
- 
+
 app.get('/',function(req,res,next){
   res.send('Working!');
 });
@@ -92,8 +92,8 @@ app.post('/update', function(req, res, next) {
             console.log(response.statusCode, body);
         }
     });
-    res.send('ok');
   }
+  res.send('ok');
 });
 
 /**
