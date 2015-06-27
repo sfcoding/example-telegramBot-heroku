@@ -39,18 +39,20 @@ if ('development' == app.get('env')) {
 // production only
 if ('production' == app.get('env')) {
   console.log("production");
-  request({
-      url: 'https://api.telegram.org/'+TOKEN+'/setWebhook',
-      method: 'POST',
-      form: {url: WEBHOOK_URL},
-  }, function(error, response, body){
-      if(error) {
-          console.log(error);
-      } else {
-          console.log(response.statusCode, body);
-      }
-  });
+
 }
+
+request({
+    url: 'https://api.telegram.org/'+TOKEN+'/setWebhook',
+    method: 'POST',
+    form: {url: WEBHOOK_URL},
+}, function(error, response, body){
+    if(error) {
+        console.log(error);
+    } else {
+        console.log(response.statusCode, body);
+    }
+});
 /*
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://'+app.get('mongodb_uri')+'/personal', function(err) {
