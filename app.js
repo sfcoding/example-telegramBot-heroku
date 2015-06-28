@@ -27,9 +27,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var env = process.env.NODE_ENV || 'development';
 
-var TOKEN = 'bot118505018:AAEz45wcGngywY3JaDpbNmX2TWhuPY3w1eU';
-var WEBHOOK_URL = 'https://scacciabot.sfcoding.com/update';
-var BOT_NAME = '@ScacciaBot';
+var TOKEN = process.env.TOKEN;
+var WEBHOOK_URL = process.env.WEBHOOK_URL;
+var BOT_NAME = process.env.BOT_NAME;
 
 // development only
 if ('development' == app.get('env')) {
@@ -90,7 +90,7 @@ app.post('/update', function(req, res, next) {
     request({
         url: 'https://api.telegram.org/'+TOKEN+'/sendMessage',
         method: 'POST',
-        form: {text: 'Hello World! - '+process.env.TOKEN, chat_id: message.chat.id},
+        form: {text: 'Hello World! - 1', chat_id: message.chat.id},
     }, function(error, response, body){
         if(error) {
             console.log(error);
