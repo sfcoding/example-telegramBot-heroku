@@ -6,7 +6,7 @@ var express = require('express'),
   methodOverride = require('method-override'),
   errorhandler = require('errorhandler'),
   morgan = require('morgan'),
-  http = require('http'),
+  request = require('request'),
   path = require('path');
 
 var app = module.exports = express();
@@ -29,7 +29,7 @@ var env = process.env.NODE_ENV || 'development';
 
 var TOKEN = 'bot118505018:AAEz45wcGngywY3JaDpbNmX2TWhuPY3w1eU';
 var WEBHOOK_URL = 'https://scacciabot.sfcoding.com/update';
-var request = require('request');
+var BOT_NAME = '@ScacciaBot';
 
 // development only
 if ('development' == app.get('env')) {
@@ -39,20 +39,20 @@ if ('development' == app.get('env')) {
 // production only
 if ('production' == app.get('env')) {
   console.log("production");
-
+  request({
+      url: 'https://api.telegram.org/'+TOKEN+'/setWebhook',
+      method: 'POST',
+      form: {url: WEBHOOK_URL},
+  }, function(error, response, body){
+      if(error) {
+          console.log(error);
+      } else {
+          console.log(response.statusCode, body);
+      }
+  });
 }
 
-request({
-    url: 'https://api.telegram.org/'+TOKEN+'/setWebhook',
-    method: 'POST',
-    form: {url: WEBHOOK_URL},
-}, function(error, response, body){
-    if(error) {
-        console.log(error);
-    } else {
-        console.log(response.statusCode, body);
-    }
-});
+
 /*
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://'+app.get('mongodb_uri')+'/personal', function(err) {
@@ -82,12 +82,15 @@ app.get('/',function(req,res,next){
 app.post('/update', function(req, res, next) {
   console.log('update!  %j', req.body);
   var message = req.body.message;
-  if (message.text=='/hello'){
+  var text = t.split(' ');
+  var cmd = text[0].split(BOT_NAME)[0];
+  var option = text.slice(1);
+  if (cmd =='/hello'){
     //Lets configure and request
     request({
         url: 'https://api.telegram.org/'+TOKEN+'/sendMessage',
         method: 'POST',
-        form: {text: 'Hello World! - 1', chat_id: message.chat.id},
+        form: {text: 'Hello World! - '+process.env.TOKEN, chat_id: message.chat.id},
     }, function(error, response, body){
         if(error) {
             console.log(error);
