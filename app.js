@@ -82,7 +82,7 @@ app.get('/',function(req,res,next){
 app.post('/update', function(req, res, next) {
   console.log('update!  %j', req.body);
   var message = req.body.message;
-  var text = t.split(' ');
+  var text = message.text.split(' ');
   var cmd = text[0].split(BOT_NAME)[0];
   var option = text.slice(1);
   if (cmd =='/hello'){
