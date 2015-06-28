@@ -87,7 +87,7 @@ app.post('/update', function(req, res, next) {
     request({
         url: 'https://api.telegram.org/'+TOKEN+'/sendMessage',
         method: 'POST',
-        form: {text: 'Hello World! - by sfcoding.com', chat_id: message.chat.id},
+        form: {text: 'Hello World! - 1', chat_id: message.chat.id},
     }, function(error, response, body){
         if(error) {
             console.log(error);
