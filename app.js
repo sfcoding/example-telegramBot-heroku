@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 var env = process.env.NODE_ENV || 'development';
 
 var TOKEN = 'bot118505018:AAEz45wcGngywY3JaDpbNmX2TWhuPY3w1eU';
-var WEBHOOK_URL = 'https://still-beach-5489.herokuapp.com/update';
+var WEBHOOK_URL = 'https://scacciabot.sfcoding.com/update';
 var request = require('request');
 
 // development only
@@ -87,7 +87,7 @@ app.post('/update', function(req, res, next) {
     request({
         url: 'https://api.telegram.org/'+TOKEN+'/sendMessage',
         method: 'POST',
-        form: {text: 'Hello World!', chat_id: message.chat.id},
+        form: {text: 'Hello World! - by sfcoding.com', chat_id: message.chat.id},
     }, function(error, response, body){
         if(error) {
             console.log(error);
