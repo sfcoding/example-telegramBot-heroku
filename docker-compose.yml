@@ -1,12 +1,13 @@
 app:
   build: .
   links:
-    - mongo
+    - postgresql
   ports:
     - "8080:80"
   volumes:
-    - .:/home/app/personal-app
+    - .:/home/app/scacciabot
 
-mongo:
-  image: mongo:3
-  command: mongod --smallfiles --quiet --logpath=/dev/null
+postgresql:
+  image: postgres
+  ports:
+    - "5432"
