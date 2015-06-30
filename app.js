@@ -8,7 +8,7 @@ var express = require('express'),
   morgan = require('morgan'),
   request = require('request'),
   path = require('path'),
-  models = require("../models");
+  //models = require("../models");
 
 var app = module.exports = express();
 
