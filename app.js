@@ -7,7 +7,8 @@ var express = require('express'),
   errorhandler = require('errorhandler'),
   morgan = require('morgan'),
   request = require('request'),
-  path = require('path');
+  path = require('path'),
+  models = require("../models");
 
 var app = module.exports = express();
 
@@ -144,8 +145,10 @@ if (env === 'production') {
   });
 }
 
-var server = app.listen(app.get('port'), function() {
-  console.log('Node app is running on port', app.get('port'));
+models.sequelize.sync().then(function () {
+  var server = app.listen(app.get('port'), function() {
+    console.log('Node app is running on port', app.get('port'));
+  });
 });
 
 
