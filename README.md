@@ -12,8 +12,8 @@ A telegram bot for manage all the blacklist service for the SFcoding group.
 ### Commands
 
 __Admin commands__:
-- `/addworld` add a world to the user blacklist
-- `/delworld` remove a world to the user blacklist
+- `/addword` add a world to the user blacklist
+- `/delword` remove a world to the user blacklist
 - `/update` change the money for a user word to a custom value
 - `/increase` increase by one the amount of money for a given user, word
 
