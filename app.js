@@ -101,12 +101,13 @@ app.post('/update', function(req, res, next) {
             console.log(response.statusCode, body);
         }
     });
-    if (cmd == '/adduser')
-      models.Users.create({id: message.from.id,
-                           username: message.from.username,
-                           name: message.from.first_name}).then(function(data){
-                             console.log('add user %s with id %i',data.username,data.id);
-                           });
+  }
+  else if (cmd == '/adduser'){
+    models.Users.create({id: message.from.id,
+                         username: message.from.username,
+                         name: message.from.first_name}).then(function(data){
+                           console.log('add user %s with id %i',data.username,data.id);
+                         });
   }
   res.send('ok');
 });
