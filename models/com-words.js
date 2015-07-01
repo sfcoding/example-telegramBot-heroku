@@ -1,16 +1,17 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-  var Com-Words = sequelize.define("Com-Words", {
-    id: DataTypes.INTEGER.UNSIGNED,
-    word: DataTypes.STRING,
-    money: DataTypes.INTEGER.UNSIGNED.ZEROFILL,
+  var ComWords = sequelize.define("ComWords", {
+    //id: {type: DataTypes.INTEGER.UNSIGNED, primaryKey:true},
+    word: DataTypes.STRING
   }, {
     classMethods: {
       associate: function(models) {
-        Com-Words.belongsTo(models.Users)
+        ComWords.belongsToMany(models.Users,{through: 'Link_Users_ComWords',
+        //foreignKey: 'word_id'
+        });
       }
     }
   });
-  return Com-Words;
+  return ComWords;
 };

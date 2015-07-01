@@ -1,14 +1,11 @@
 var express = require('express');
 var router = express.Router();
-//var authController = require('../controllers/auth');
-//var mongoose = require('mongoose');
-var Me = require('../../models/Me.js');
+var db = require('../models');
 
-/* GET /me listing. */
+/* GET /debugdb listing. */
 router.get('/', function(req, res, next) {
-  Me.get(req.lang, function (err, todos) {
-    if (err) return next(err);
-    res.json(todos[0]);
+  db.Users.findAll({}).then(function(data){
+    res.json(data);
   });
 });
 

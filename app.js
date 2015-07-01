@@ -8,7 +8,7 @@ var express = require('express'),
   morgan = require('morgan'),
   request = require('request'),
   path = require('path'),
-  //models = require("../models");
+  models = require("./models");
 
 var app = module.exports = express();
 
@@ -77,8 +77,10 @@ mongoose.connect('mongodb://'+app.get('mongodb_uri')+'/personal', function(err) 
  */
 
 app.get('/',function(req,res,next){
-  res.send('Working!');
+  res.send('Working!asd1');
 });
+
+app.use('/debugdb',require('./routes/debugDB'));
 
 app.post('/update', function(req, res, next) {
   console.log('update!  %j', req.body);
@@ -99,6 +101,12 @@ app.post('/update', function(req, res, next) {
             console.log(response.statusCode, body);
         }
     });
+    if (cmd == '/adduser')
+      models.Users.create({id: message.from.id,
+                           username: message.from.username,
+                           name: message.from.first_name}).then(function(data){
+                             console.log('add user %s with id %i',data.username,data.id);
+                           });
   }
   res.send('ok');
 });
@@ -116,7 +124,6 @@ app.use(function(req, res, next) {
 
 // development only
 if (env === 'development') {
-  console.log('error_development');
   app.use(errorhandler());
   // development error handler
   // will print stacktrace
@@ -132,7 +139,6 @@ if (env === 'development') {
 
 // production only
 if (env === 'production') {
-  console.log('error_production');
   // production error handler
   // no stacktraces leaked to user
   app.use(function(err, req, res, next) {
@@ -143,14 +149,13 @@ if (env === 'production') {
       error: {}
     });
   });
-}
 
-models.sequelize.sync().then(function () {
-  var server = app.listen(app.get('port'), function() {
-    console.log('Node app is running on port', app.get('port'));
+  //For PASSENGER
+  models.sequelize.sync().then(function () {
+    app.listen();
+    require('../test/dbdata')();
   });
-});
-
+}
 
 /**
  * Start Server

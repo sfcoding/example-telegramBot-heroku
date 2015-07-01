@@ -1,20 +1,16 @@
 {
   "development": {
-    "dialect": "sqlite",
-    "storage": "./db.development.sqlite"
-  },
-  "test": {
-    "username": "root",
+    "username": "postgres",
     "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "database": "postgres",
+    "host": "postgresql",
+    "dialect": "postgresql"
   },
   "production": {
-    "username": "root",
+    "username": "scacciabot",
     "password": null,
-    "database": "database_production",
+    "database": "scacciabotdb",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgresql"
   }
 }
