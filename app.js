@@ -153,7 +153,7 @@ if (env === 'production') {
   //For PASSENGER
   models.sequelize.sync().then(function () {
     app.listen();
-    require('../test/dbdata')();
+    require('./test/dbdata')();
   });
 }
 
