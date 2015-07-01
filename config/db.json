@@ -8,7 +8,7 @@
   },
   "production": {
     "username": "scacciabot",
-    "password": null,
+    "password": "scacciabot",
     "database": "scacciabotdb",
     "host": "127.0.0.1",
     "dialect": "postgresql"
