@@ -39,7 +39,7 @@ var TOKEN = process.env.TOKEN;
 var WEBHOOK_URL = process.env.WEBHOOK_URL;
 var BOT_NAME = process.env.BOT_NAME;
 var telegram = new telegramHeper(TOKEN);
-var myCache = new NodeCache( { stdTTL: 500/*, checkperiod: 120*/} );
+var myCache =  new NodeCache( { stdTTL: 500/*, checkperiod: 120*/} );
 
 // development only
 if ('development' == app.get('env')) {
@@ -118,11 +118,11 @@ app.post('/update', function(req, res, next) {
     console.log(user);
     if (user){
       //check if the user have same operation in progress
-      var cache_data = myCache.get( ''+chatId+fromId);
+      var cache_data = myCache.get(''+chatId+fromId);
       if(cache_data){
         //myCache.del(''+chatId+fromId);
         cache_data.option.push(text[0]);
-        parseCommand(messageId,cache_data);
+        parseCommand(messageId,cache_data,myCache);
       }else{
         //if find a command
         if (text[0][0] == '/'){
@@ -136,7 +136,7 @@ app.post('/update', function(req, res, next) {
             admin: user.admin
           };
           myCache.set(''+chatId+fromId,cacheObj);
-          parseCommand(messageId,cacheObj);
+          parseCommand(messageId,cacheObj,myCache);
           /*switch (cmd) {
             case '/hello':
               telegram.sendMessage(chatId, 'Hello World! - 2');
