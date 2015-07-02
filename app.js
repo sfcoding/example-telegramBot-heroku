@@ -10,6 +10,7 @@ var express = require('express'),
   request = require('request'),
   path = require('path'),
   NodeCache = require( "node-cache" ),
+  fs = require('fs'),
 
   models = require("./models"),
   telegramHeper = require('./helper/telegram'),
