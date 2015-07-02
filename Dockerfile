@@ -8,11 +8,16 @@ ENV HOME /root
 # Use baseimage-docker's init process.
 CMD ["/sbin/my_init"]
 
+#SSH
+RUN rm -f /etc/service/sshd/down
+RUN /usr/sbin/enable_insecure_key
+
 ### In Dockerfile:
 RUN mkdir -p /etc/my_init.d
 ADD build/start_node.sh /etc/my_init.d/start_node.sh
 
 RUN npm install -g nodemon
+RUN npm install -g sequelize-cli
 
 # use changes to package.json to force Docker not to use the cache
 # when we change our application's nodejs dependencies:

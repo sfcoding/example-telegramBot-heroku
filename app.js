@@ -6,9 +6,14 @@ var express = require('express'),
   methodOverride = require('method-override'),
   errorhandler = require('errorhandler'),
   morgan = require('morgan'),
+  FileStreamRotator = require('file-stream-rotator'),
   request = require('request'),
   path = require('path'),
-  models = require("./models");
+  NodeCache = require( "node-cache" ),
+
+  models = require("./models"),
+  telegramHeper = require('./helper/telegram'),
+  parseCommand = require('./helper/parseCommand');
 
 var app = module.exports = express();
 
@@ -31,6 +36,8 @@ var env = process.env.NODE_ENV || 'development';
 var TOKEN = process.env.TOKEN;
 var WEBHOOK_URL = process.env.WEBHOOK_URL;
 var BOT_NAME = process.env.BOT_NAME;
+var telegram = new telegramHeper(TOKEN);
+var myCache = new NodeCache( { stdTTL: 500/*, checkperiod: 120*/} );
 
 // development only
 if ('development' == app.get('env')) {
@@ -51,6 +58,23 @@ if ('production' == app.get('env')) {
           console.log(response.statusCode, body);
       }
   });
+
+  //DEBUG_FILE
+  var logDirectory = __dirname + '/log';
+
+  // ensure log directory exists
+  fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
+
+  // create a rotating write stream
+  var accessLogStream = FileStreamRotator.getStream({
+    filename: logDirectory + '/access-%DATE%.log',
+    frequency: 'daily',
+    verbose: false
+  });
+
+  //setup the logger
+  app.use(morgan('combined', {stream: accessLogStream}));
+
 }
 
 
@@ -82,33 +106,77 @@ app.get('/',function(req,res,next){
 
 app.use('/debugdb',require('./routes/debugDB'));
 
+//example of cache Object
+/*
+{
+  cmd: '/adduser',
+  option: [ 234234, ]
+}
+*/
+
 app.post('/update', function(req, res, next) {
   console.log('update!  %j', req.body);
+
+  //parse all variable
   var message = req.body.message;
+  var chatId = message.chat.id;
+  var fromId = message.from.id;
+  var messageId = message.message_id;
   var text = message.text.split(' ');
-  var cmd = text[0].split(BOT_NAME)[0];
-  var option = text.slice(1);
-  if (cmd =='/hello'){
-    //Lets configure and request
-    request({
-        url: 'https://api.telegram.org/'+TOKEN+'/sendMessage',
-        method: 'POST',
-        form: {text: 'Hello World! - 1', chat_id: message.chat.id},
-    }, function(error, response, body){
-        if(error) {
-            console.log(error);
-        } else {
-            console.log(response.statusCode, body);
+
+  model.Users.findOne({
+    where: {
+      id: fromId
+    }
+  }).then(function(user){
+    console.log(user);
+    if (user){
+      //check if the user have same operation in progress
+      var cache_data = myCache.get( ''+chatId+fromId);
+      if(cache_data){
+        //myCache.del(''+chatId+fromId);
+        cache_data.option.push(text[0]);
+        parseCommand(messageId,cache_data);
+      }else{
+        //if find a command
+        if (text[0][0] == '/'){
+          var cmd = text[0].split(BOT_NAME)[0];
+          //var option = text.slice(1);
+          var cacheObj={
+            cmd: cmd,
+            option: [],
+            chat_id: chatId,
+            from_id: fromId,
+            admin: user.admin
+          };
+          myCache.set(''+chatId+fromId,cacheObj);
+          parseCommand(messageId,cacheObj);
+          /*switch (cmd) {
+            case '/hello':
+              telegram.sendMessage(chatId, 'Hello World! - 2');
+              break;
+            case '/help':
+              telegram.sendMessage(chatId,'list of command:');
+              break;
+            case '/addword':
+              break;
+          }*/
+        }else{
+          //check the words
+
         }
-    });
-  }
-  else if (cmd == '/adduser'){
-    models.Users.create({id: message.from.id,
-                         username: message.from.username,
-                         name: message.from.first_name}).then(function(data){
-                           console.log('add user %s with id %i',data.username,data.id);
-                         });
-  }
+      }
+      /*else if (cmd == '/adduser'){
+        models.Users.create({id: message.from.id,
+                             username: message.from.username,
+                             name: message.from.first_name}).then(function(data){
+                               console.log('add user %s with id %i',data.username,data.id);
+                             });
+      }*/
+    }
+  });
+
+
   res.send('ok');
 });
 

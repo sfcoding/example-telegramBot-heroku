@@ -5,6 +5,7 @@ module.exports = function(sequelize, DataTypes) {
     id: {type:DataTypes.INTEGER.UNSIGNED, unique: true, primaryKey: true},
     username: DataTypes.STRING,
     name: DataTypes.STRING,
+    admin: {type: DataTypes.BOOLEAN, defaultValue: false} 
   }, {
     classMethods: {
       associate: function(models) {
