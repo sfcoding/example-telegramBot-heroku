@@ -201,8 +201,7 @@ if (env === 'production') {
       transports: [
         new winston.transports.File({
           filename: logDirectory+'/error.log',
-          json: true,
-          colorize: true
+          level: 'error'
         })
       ]
     }));
