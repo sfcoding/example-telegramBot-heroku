@@ -24,7 +24,7 @@ var callbacks = {
 var parseCommand = function(msgId, data){
   var cmdCB = callbacks[data.cmd];
   if (cmdCB.admin==data.admin){
-    if (cmdCB.option.length > data.option.length)
+    if (cmdCB.option && cmdCB.option.length > data.option.length)
       cmdCB.option[data.option.length](msgId, data);
     else
       cmdCB.exec(msgId,data);
