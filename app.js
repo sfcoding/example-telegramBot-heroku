@@ -110,7 +110,7 @@ app.post('/update', function(req, res, next) {
   var messageId = message.message_id;
   var text = message.text.split(' ');
 
-  model.Users.findOne({
+  models.Users.findOne({
     where: {
       id: fromId
     }
