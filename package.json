@@ -13,7 +13,8 @@
     "jade": "^1.11.0",
     "method-override": "^2.3.3",
     "morgan": "^1.6.0",
-    "file-stream-rotator": "^0.0.6",
+    "winston": "^1.0.1",
+    "express-winston": "^0.3.1",
     "debug": "^2.2.0",
     "request": "^2.58.0",
 

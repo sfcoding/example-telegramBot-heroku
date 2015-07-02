@@ -6,7 +6,6 @@ var express = require('express'),
   methodOverride = require('method-override'),
   errorhandler = require('errorhandler'),
   morgan = require('morgan'),
-  FileStreamRotator = require('file-stream-rotator'),
   request = require('request'),
   path = require('path'),
   NodeCache = require( "node-cache" ),
@@ -48,6 +47,7 @@ if ('development' == app.get('env')) {
 // production only
 if ('production' == app.get('env')) {
   console.log("production");
+
   request({
       url: 'https://api.telegram.org/'+TOKEN+'/setWebhook',
       method: 'POST',
@@ -59,23 +59,6 @@ if ('production' == app.get('env')) {
           console.log(response.statusCode, body);
       }
   });
-
-  //DEBUG_FILE
-  var logDirectory = __dirname + '/log';
-
-  // ensure log directory exists
-  fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
-
-  // create a rotating write stream
-  var accessLogStream = FileStreamRotator.getStream({
-    filename: logDirectory + '/access-%DATE%.log',
-    frequency: 'daily',
-    verbose: false
-  });
-
-  //setup the logger
-  app.use(morgan('combined', {stream: accessLogStream}));
-
 }
 
 
@@ -209,6 +192,19 @@ if (env === 'development') {
 
 // production only
 if (env === 'production') {
+  //DEBUG_FILE
+  var logDirectory = __dirname + '/log';
+  fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
+  app.use(expressWinston.errorLogger({
+      transports: [
+        new winston.transports.File({
+          filename: logDirectory,
+          json: true,
+          colorize: true
+        })
+      ]
+    }));
+
   // production error handler
   // no stacktraces leaked to user
   app.use(function(err, req, res, next) {
