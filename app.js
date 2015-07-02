@@ -195,7 +195,7 @@ if (env === 'development') {
 // production only
 if (env === 'production') {
   //DEBUG_FILE
-  var logDirectory = __dirname + '/log';
+  /*var logDirectory = __dirname + '/log';
   fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
   app.use(expressWinston.errorLogger({
       transports: [
@@ -205,7 +205,7 @@ if (env === 'production') {
       ],
       level: 'error'
     }));
-
+    */
   // production error handler
   // no stacktraces leaked to user
   app.use(function(err, req, res, next) {
