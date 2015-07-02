@@ -200,7 +200,7 @@ if (env === 'production') {
   app.use(expressWinston.errorLogger({
       transports: [
         new winston.transports.File({
-          filename: logDirectory,
+          filename: logDirectory+'/error.log',
           json: true,
           colorize: true
         })
