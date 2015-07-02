@@ -200,10 +200,10 @@ if (env === 'production') {
   app.use(expressWinston.errorLogger({
       transports: [
         new winston.transports.File({
-          filename: logDirectory+'/error.log',
-          level: 'error'
+          filename: logDirectory+'/error.log'
         })
-      ]
+      ],
+      level: 'error'
     }));
 
   // production error handler
