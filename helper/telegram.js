@@ -8,6 +8,13 @@ function API (token){
     });
   };
 
+  this.arrayToKeyboard = function(obj,key){
+    var res = [];
+    for (var i=0;i<obj.length;i++){
+      res.push([obj[i][key]]);
+    }
+  };
+
   this.sendMessage = function (chatId,text,msgId,key){
     var obj = {text: text, chat_id: chatId};
     if(msgId) obj.reply_to_message_id = msgId;
