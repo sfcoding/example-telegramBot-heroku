@@ -30,11 +30,12 @@ var TELEGRAM_COMF = JSON.parse(fs.readFileSync(path.join(__dirname,'/config/tele
 
 //CREATE TELEGRAM HELPER AND SET WEBHOOK
 var telegram = new telegramHeper(TELEGRAM_COMF.token);
-var res = telegram.getMe();
-if (res){
-  console.log('getMe: %j',res);
-  TELEGRAM_COMF.bot_name = res.username;
-}
+telegram.getMe(function(data){
+  if (data){
+    console.log('getMe: %j',data);
+    TELEGRAM_COMF.bot_name = data.username;
+  }
+});
 telegram.setWebHook(TELEGRAM_COMF.webhook_url);
 
 /**

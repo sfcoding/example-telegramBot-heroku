@@ -22,19 +22,17 @@ function API (token){
     }
   };
 
-  this.getMe = function(){
+  this.getMe = function(cb){
     request({
         url: 'https://api.telegram.org/bot'+token+'/getme',
         method: 'GET'
     }, function(error, response, body){
-        console.log('error: '+error);
-        console.log('getMe: %j',body);
-        if(error) return null;
-        else return parseReturn(body);
+        if(error) cb(null);
+        else cb(parseReturn(body));
     });
   };
 
-  this.sendMessage = function (chatId,text,msgId,key){
+  this.sendMessage = function (chatId,text,msgId,key, cb){
     var obj = {text: text, chat_id: chatId};
     if(msgId) obj.reply_to_message_id = msgId;
     if(key) obj.reply_markup = createKeybord(key);
@@ -43,19 +41,19 @@ function API (token){
         method: 'POST',
         form: obj,
     }, function(error, response, body){
-        if(error) return null;
-        else return parseReturn(body);
+      if(error) cb(null);
+      else cb(parseReturn(body));
     });
   };
 
-  this.setWebHook = function(webhook_url){
+  this.setWebHook = function(webhook_url, cb){
     request({
         url: 'https://api.telegram.org/bot'+token+'/setWebhook',
         method: 'POST',
         form: {url: webhook_url},
     }, function(error, response, body){
-        if(error) return null;
-        else return parseReturn(body);
+      if(error) cb(null);
+      else cb(parseReturn(body));
     });
   };
 
