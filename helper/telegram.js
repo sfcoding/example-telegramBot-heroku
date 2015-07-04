@@ -9,11 +9,27 @@ function API (token){
     });
   };
 
+  var parseReturn = function(body){
+      var res = JSON.parse(body);
+      if (res.ok)
+        return res.result;
+  };
+
   this.arrayToKeyboard = function(obj,key){
     var res = [];
     for (var i=0;i<obj.length;i++){
       res.push([obj[i][key]]);
     }
+  };
+
+  this.getMe = function(){
+    request({
+        url: 'https://api.telegram.org/bot'+token+'/getme',
+        method: 'GET'
+    }, function(error, response, body){
+        if(error) return null;
+        else return parseReturn(body);
+    });
   };
 
   this.sendMessage = function (chatId,text,msgId,key){
@@ -25,8 +41,8 @@ function API (token){
         method: 'POST',
         form: obj,
     }, function(error, response, body){
-        if(error) return error;
-        else return body;
+        if(error) return null;
+        else return parseReturn(body);
     });
   };
 
@@ -36,8 +52,8 @@ function API (token){
         method: 'POST',
         form: {url: webhook_url},
     }, function(error, response, body){
-        if(error) return error;
-        else return body;
+        if(error) return null;
+        else return parseReturn(body);
     });
   };
 
