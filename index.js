@@ -16,8 +16,6 @@ var app = module.exports = express();
 /**
  * Configuration
  */
-
-// all environments
 app.set('port', process.env.PORT || 5000);
 app.set('views', __dirname + '/views');
 app.set('env', process.env.NODE_ENV || 'development');
@@ -27,14 +25,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
-
-
+//LOAD CONFIG FILE
 var confFile = JSON.parse(fs.readFileSync(path.join(__dirname,'/config/telegram.json')), 'utf8');
 
+//CREATE TELEGRAM HELPER AND SET WEBHOOK
 var telegram = new telegramHeper(confFile.token);
-
 telegram.setWebHook(confFile.webhook_url);
-
 
 /**
  * Routes
@@ -68,6 +64,7 @@ app.post('/update', function(req, res, next) {
   res.send('ok');
 });
 
+
 /**
  * ERROR
  */
@@ -77,7 +74,6 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
-
 
 // development only
 if (app.get('env') === 'development') {

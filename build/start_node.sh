@@ -1,2 +1,2 @@
 #!/bin/sh
-nodemon ./scacciabot/bin/www
+nodemon ./scacciabot/index.js
