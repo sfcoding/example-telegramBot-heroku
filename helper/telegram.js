@@ -27,6 +27,7 @@ function API (token){
         url: 'https://api.telegram.org/bot'+token+'/getme',
         method: 'GET'
     }, function(error, response, body){
+        console.log('error: '+error);
         console.log('getMe: %j',body);
         if(error) return null;
         else return parseReturn(body);
