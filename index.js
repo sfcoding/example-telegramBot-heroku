@@ -58,7 +58,7 @@ app.post('/update', function(req, res, next) {
 
   switch (cmd) {
     case '/hello':
-      telegram.sendMessage(chatId, 'Hello World! '+option[0]);
+      telegram.sendMessage(chatId, 'Hello World! '+ (option[0] || '') );
       break;
     case '/help':
       telegram.sendMessage(chatId,'list of command:');
