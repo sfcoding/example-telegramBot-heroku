@@ -26,13 +26,13 @@ app.use(bodyParser.json());
 app.use(methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
 //LOAD CONFIG FILE
-var CONF = JSON.parse(fs.readFileSync(path.join(__dirname,'/config/telegram.json')), 'utf8');
+var TELEGRAM_COMF = JSON.parse(fs.readFileSync(path.join(__dirname,'/config/telegram.json')), 'utf8');
 
 //CREATE TELEGRAM HELPER AND SET WEBHOOK
-var telegram = new telegramHeper(CONF.token);
+var telegram = new telegramHeper(TELEGRAM_COMF.token);
 var res = telegram.getMe();
-if(res) CONF.bot_name = res.username;
-telegram.setWebHook(CONF.webhook_url);
+if (res) TELEGRAM_COMF.bot_name = res.username;
+telegram.setWebHook(TELEGRAM_COMF.webhook_url);
 
 /**
  * Routes
@@ -51,7 +51,7 @@ app.post('/update', function(req, res, next) {
   var messageId = message.message_id;
   var text = message.text.split(' ');
 
-  var cmd = text[0].split(CONF.bot_name)[0];
+  var cmd = text[0].split(TELEGRAM_COMF.bot_name)[0];
   var option = text.slice(1);
 
   switch (cmd) {
