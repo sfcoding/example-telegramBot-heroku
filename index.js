@@ -33,7 +33,7 @@ var telegram = new telegramHeper(TELEGRAM_COMF.token);
 telegram.getMe(function(data){
   if (data){
     console.log('getMe: %j',data);
-    TELEGRAM_COMF.bot_name = data.username;
+    TELEGRAM_COMF.bot_name = '@'+data.username;
   }
 });
 telegram.setWebHook(TELEGRAM_COMF.webhook_url);
