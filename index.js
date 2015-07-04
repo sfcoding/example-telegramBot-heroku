@@ -57,7 +57,7 @@ app.post('/update', function(req, res, next) {
 
   var cmd = text[0].split(TELEGRAM_COMF.bot_name)[0];
   var option = text.slice(1);
-
+  console.log('command: '+cmd);
   switch (cmd) {
     case '/hello':
       telegram.sendMessage(chatId, 'Hello World! '+ (option[0] || '') );
