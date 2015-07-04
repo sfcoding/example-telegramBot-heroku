@@ -28,5 +28,17 @@ function API (token){
         else return body;
     });
   };
+
+  this.setWebHook = function(webhook_url){
+    request({
+        url: 'https://api.telegram.org/'+token+'/setWebhook',
+        method: 'POST',
+        form: {url: webhook_url},
+    }, function(error, response, body){
+        if(error) return error;
+        else return body;
+    });
+  };
+
 }
 module.exports = API;

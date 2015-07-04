@@ -1,0 +1,5 @@
+{
+  "token":"",
+  "webhook_url":"https://safe-anchorage-9399.herokuapp.com/update",
+  "bot_name": "example-heroku"
+}
