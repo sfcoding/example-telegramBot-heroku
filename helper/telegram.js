@@ -1,5 +1,6 @@
 var request = require('request');
 function API (token){
+  var URL = 'https://api.telegram.org/bot'+token;
 
   var createKeybord = function(key){
     return JSON.stringify({
@@ -24,7 +25,7 @@ function API (token){
 
   this.getMe = function(cb){
     request({
-        url: 'https://api.telegram.org/bot'+token+'/getme',
+        url: URL+'/getme',
         method: 'GET'
     }, function(error, response, body){
       if (cb){
@@ -39,7 +40,7 @@ function API (token){
     if(msgId) obj.reply_to_message_id = msgId;
     if(key) obj.reply_markup = createKeybord(key);
     request({
-        url: 'https://api.telegram.org/bot'+token+'/sendMessage',
+        url: URL+'/sendmessage',
         method: 'POST',
         form: obj,
     }, function(error, response, body){
@@ -52,7 +53,7 @@ function API (token){
 
   this.setWebHook = function(webhook_url, cb){
     request({
-        url: 'https://api.telegram.org/bot'+token+'/setWebhook',
+        url: URL+'/setwebhook',
         method: 'POST',
         form: {url: webhook_url},
     }, function(error, response, body){
