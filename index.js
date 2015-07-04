@@ -40,7 +40,7 @@ telegram.setWebHook(confFile.webhook_url);
  * Routes
  */
 app.get('/',function(req,res,next){
-  res.send('Working!asd1');
+  res.send('Working!');
 });
 
 app.post('/update', function(req, res, next) {
