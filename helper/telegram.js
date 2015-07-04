@@ -27,8 +27,10 @@ function API (token){
         url: 'https://api.telegram.org/bot'+token+'/getme',
         method: 'GET'
     }, function(error, response, body){
+      if (cb){
         if(error) cb(null);
         else cb(parseReturn(body));
+      }
     });
   };
 
@@ -41,8 +43,10 @@ function API (token){
         method: 'POST',
         form: obj,
     }, function(error, response, body){
-      if(error) cb(null);
-      else cb(parseReturn(body));
+      if (cb){
+        if(error) cb(null);
+        else cb(parseReturn(body));
+      }
     });
   };
 
@@ -52,8 +56,10 @@ function API (token){
         method: 'POST',
         form: {url: webhook_url},
     }, function(error, response, body){
-      if(error) cb(null);
-      else cb(parseReturn(body));
+      if (cb){
+        if(error) cb(null);
+        else cb(parseReturn(body));
+      }
     });
   };
 
